@@ -1,0 +1,25 @@
+svg{
+		margin : auto;
+		display: block;
+		border: 1px solid black;
+	}
+
+.axis path,
+.axis line{
+		  fill: none;
+		  stroke: #000;
+		  shape-rendering: crispEdges;
+	}
+	
+	h3
+	{
+		font-size: 30px;
+		color: #062f70;
+		text-align: center;
+		text-decoration: underline;
+
+
+	}
+
+
+
