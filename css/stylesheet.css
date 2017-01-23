@@ -2,6 +2,7 @@ svg{
 		margin : auto;
 		display: block;
 		border: 1px solid black;
+		background-color : #f2eac9;
 	}
 
 .axis path,
@@ -17,9 +18,12 @@ svg{
 		color: #062f70;
 		text-align: center;
 		text-decoration: underline;
-
-
 	}
+	rect
+	{
+		fill:#ad0a30;
+	}
+	
 
 
 

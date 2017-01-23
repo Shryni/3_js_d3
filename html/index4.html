@@ -1,28 +1,15 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<head>
 <title>Stacked bar chart</title>
-
-body {
-  font: 10px sans-serif;
-}
-svg{
-    margin-right: auto;
-    margin-left: auto;
-    display: block;
-  }
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-</style>
+<link rel="stylesheet" href="../css/stylesheet.css">
+</head>
 <body>
+  <h3>Stacked bar chart of Rice yield in Southern states</h3>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
 
-var margin = {top: 20, right: 20, bottom: 200, left: 40},
+var margin = {top: 40, right: 100, bottom: 100, left: 55},
     width = 700 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
@@ -110,13 +97,13 @@ d3.json("../json/json4.json", function(error, data) {
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   legend.append("rect")
-      .attr("x", width - 18)
+      .attr("x", width + 18)
       .attr("width", 18)
       .attr("height", 18)
       .style("fill", color);
 
   legend.append("text")
-      .attr("x", width - 24)
+      .attr("x", width + 70)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")

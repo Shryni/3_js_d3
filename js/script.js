@@ -131,17 +131,19 @@ stream = require('stream');
 								||obj['Particulars'].includes("Rice Yield Kerala")
 								||obj['Particulars'].includes("Rice Yield Tamil Nadu")
 								||obj['Particulars'].includes("Rice Yield Karnataka"))
+						{
+							var obj4 = {};
+							obj4['particulars'] = obj[headers[0]].substr(46);
+							for (var k = 3, j=1993; k < headers.length; k++,j++) 
 							{
-								var obj4 = {};
-								for (var k = 3, j=1993; k < headers.length; k++,j++) 
-								{
-									if(obj[headers[k]] === 'NA' ||obj[headers[k]] === 'N')
-									obj4[j]="0";
-									else
-									obj4[j]=obj[headers[k]].substr(45);
-								}
-								result4.push(obj4);
+								if(obj[headers[k]] === 'NA'||obj[headers[k]] === 'N')
+								obj4[j]="0";
+								else
+								obj4[j]=obj[headers[k]];
 							}
+							result4.push(obj4);
+							console.log(obj4);
+						}
 							//end of filter 4
 					}
 	});
@@ -189,6 +191,7 @@ stream = require('stream');
 			{
 
 			});
+
 	});
 
 		console.log("Records Written");	
