@@ -1,101 +1,52 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-
+<html>
 <head>
-	<title>ff1</title>
-	<link rel="stylesheet" href="stylesheet.css"/>
-	
-
-<script src="http://d3js.org/d3.v3.min.js"></script>
+  <title>Pie chart</title>
+  <style type="text/css">
+  svg{
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+  }
+  </style>
+  <title></title>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
 </head>
 <body>
-  <h3 style="font-size:30px; margin:auto;text-align:center;">Oilseeds vs Production for the year 2013</h3>
-<script>
+  <script type="text/javascript">
+  var w = 400;
+  var h = 400;
+  var r = h/2;
+  var color = d3.scale.category20();
 
-
-
-var margin = {top: 70, right: 50, bottom:270, left: 50},
-    width = 700 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+  d3.json('../json/json3.json', function(error, data){
+    var vis = d3.select("body")
+    .append("svg")
+    .data([data])
+    .attr("width", w)
+    .attr("height", h)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + r + "," + r + ")");
 
-var xScale = d3.scale.ordinal()
-            .rangeRoundBands([0, width], 0.2, 0.2);
+    var pie = d3.layout
+    .pie()
+    .value(function(d){return d.val;});
 
-var yScale = d3.scale.linear()
-            .range([height, 0]);
+    var arc = d3.svg.arc().outerRadius(r);
 
-var xAxis = d3.svg.axis()
-    		.scale(xScale)
-    		.orient("bottom")
-var yAxis = d3.svg.axis()
-    		.scale(yScale)
-    		.orient("left")
+    var arcs = vis.selectAll("g.slice").data(pie).enter().append("g").attr("class", "slice");
+    arcs.append("path")
+    .attr("fill", function(d, i){return color(i);})
+    .attr("d", function (d) {console.log(arc(d));return arc(d);});
 
-d3.json("json1.json", function(error, data) 
-{
-	if (error)
-   {
-		console.log("error data not loaded");
-	}	 
-    data.forEach(function(d)
-     {
-        d.Production = +d.Production;
-        d.Oilseeds = d.Oilseeds;
-		});
-    xScale.domain(data.map(function(d){return d.Oilseeds}));
- 	  yScale.domain([0, d3.max(data, function(d) { return d.Production; })]);
+    arcs.append("text").attr("transform", function(d){
+      d.innerRadius = 0;
+      d.outerRadius = r;
+      return "translate(" + arc.centroid(d) + ")";}).attr("text-anchor", "middle").text( function(d, i) {
+        return data[i].year;}
+        );
+    });
 
- 	svg.selectAll("rect")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("height", 0)
-      .attr("y", height)
-      .transition().duration(3000)
-      .delay(function(d,i){ return i + 200;})
-      
-      .attr("x", function(d) { return xScale(d.Oilseeds); })
-      .attr("width", xScale.rangeBand())
-      .attr("y", function(d) { return yScale(d.Production); })
-      .attr("height", function(d) { return height - yScale(d.Production); })
-      .style("fill", function(d,i){return "#f41f35" + ((i * 30) + 100) + ")"});
-
-    svg.selectAll("text")
-    	.data(data)
-     	.enter()
-     	.append("text")
-     	.text(function(d){return d.Production;})
-     	.attr("x", function(d){return xScale(d.Oilseeds) + xScale.rangeBand()/2;})
-     	.attr("y", function(d){return yScale(d.Production) -1;})
-     	.style("fill", "bl")
-     	.style("text-anchor", "middle")
-     	.style("font-size", "12px");
-
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis)
-      .selectAll("text")
-      .attr("transform", "rotate(-90)" )
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", "-.25em")
-      .style("font-size", "10px");
-
-  	 svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end");
-});
-</script>
+  </script>
 </body>
+</html>
